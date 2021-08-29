@@ -10,8 +10,10 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
+var host string
 var cdCmd = &cobra.Command{
 	Use:   "cd",
 	Short: "cd into a project directory",
@@ -24,7 +26,6 @@ var cdCmd = &cobra.Command{
 
 		nwo := args[0]
 		user, _ := user.Current()
-		host := "github.com"
 		projectPath := path.Join(user.HomeDir, "src", host, nwo)
 		_, err := os.Stat(projectPath)
 
@@ -43,7 +44,7 @@ var cdCmd = &cobra.Command{
 		tasks := [][]string{
 			[]string{"cd", projectPath},
 			[]string{"ctags", projectPath},
-			[]string{"setenv", fmt.Sprintf("JIVE_LAST_RUN=%s", time.Now().Unix())},
+			[]string{"setenv", fmt.Sprintf("JIVE_LAST_RUN=%v", time.Now().Unix())},
 		}
 		afterRun(tasks)
 	},
@@ -75,4 +76,7 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// cdCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	cdCmd.Flags().StringVarP(&host, "host", "", "github.com", "The target host. (Default: github.com)")
+
+	viper.BindPFlag("host", cdCmd.Flags().Lookup("host"))
 }
