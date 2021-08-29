@@ -3,6 +3,8 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"os/user"
+	"path"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -15,7 +17,18 @@ var rootCmd = &cobra.Command{
 	Short: "Woof!",
 	Long:  "Woof! Woof! Woof!",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Woof!")
+		user, _ := user.Current()
+		fmt.Printf(
+			"source %s\n",
+			path.Join(
+				user.HomeDir,
+				"src",
+				"github.com",
+				"xlg-pkg",
+				"jive",
+				"jive.sh",
+			),
+		)
 	},
 }
 
