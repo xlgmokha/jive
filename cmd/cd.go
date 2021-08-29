@@ -6,6 +6,8 @@ import (
 	"os/exec"
 	"os/user"
 	"path"
+	"syscall"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -37,7 +39,28 @@ var cdCmd = &cobra.Command{
 			command.Stderr = os.Stderr
 			command.Run()
 		}
+
+		tasks := [][]string{
+			[]string{"cd", projectPath},
+			[]string{"ctags", projectPath},
+			[]string{"setenv", fmt.Sprintf("JIVE_LAST_RUN=%s", time.Now().Unix())},
+		}
+		afterRun(tasks)
 	},
+}
+
+func afterRun(tasks [][]string) {
+	for i, _ := range tasks {
+		command := tasks[i][0]
+		args := tasks[i][1]
+		toSend := fmt.Sprintf("%s:%s\n", command, args)
+
+		_, err := syscall.Write(42, []byte(toSend))
+		if err != nil {
+			fmt.Errorf("%v", err)
+			break
+		}
+	}
 }
 
 func init() {
