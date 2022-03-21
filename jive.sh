@@ -15,7 +15,7 @@ __jive_auto_reload() {
 }
 
 __jive_exec() {
-  cd "$HOME/src/github.com/xlg-pkg/jive/" || exit 1
+  cd "$HOME/src/github.com/xlgmokha/jive/" || exit 1
   go run main.go "$@"
 }
 

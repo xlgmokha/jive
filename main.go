@@ -1,6 +1,6 @@
 package main
 
-import "github.com/xlg-pkg/jive/cmd"
+import "github.com/xlgmokha/jive/cmd"
 
 func main() {
 	cmd.Execute()

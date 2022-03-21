@@ -24,7 +24,7 @@ var rootCmd = &cobra.Command{
 				user.HomeDir,
 				"src",
 				"github.com",
-				"xlg-pkg",
+				"xlgmokha",
 				"jive",
 				"jive.sh",
 			),
